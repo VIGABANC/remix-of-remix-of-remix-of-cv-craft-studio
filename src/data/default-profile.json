@@ -114,9 +114,9 @@
       "Adaptabilité"
     ],
     "languages": [
-      { "language": "Arabe", "level": "Langue maternelle", "cefr": "C2" },
-      { "language": "Français", "level": "Courant", "cefr": "B2" },
-      { "language": "Anglais", "level": "Technique", "cefr": "B1" }
+      { "language": "Arabe", "level": "Langue maternelle", "cefr": "Natif" },
+      { "language": "Français", "level": "Élémentaire", "cefr": "A2" },
+      { "language": "Anglais", "level": "Élémentaire", "cefr": "A2" }
     ]
   }
 }
