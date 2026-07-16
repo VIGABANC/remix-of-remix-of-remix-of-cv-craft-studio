@@ -104,8 +104,7 @@
       "frontend": ["React.js", "TypeScript", "JavaScript", "HTML5 / CSS3", "Tailwind CSS"],
       "backend": ["Laravel (PHP)", "FastAPI", "Node.js", "API REST"],
       "bases de données": ["PostgreSQL", "MySQL", "MongoDB", "SQL"],
-      "cybersécurité": ["SOC", "SIEM & Analyse des logs", "Sécurité réseau", "Ethical Hacking", "Cryptographie"],
-      "outils": ["Git", "Docker", "Agile / Scrum"]
+      "cybersécurité": ["SOC", "SIEM & Analyse des logs", "Sécurité réseau", "Ethical Hacking", "Cryptographie"]
     },
     "soft_skills": [
       "Gestion de projet",

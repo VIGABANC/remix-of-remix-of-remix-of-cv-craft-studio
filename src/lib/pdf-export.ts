@@ -20,44 +20,22 @@ export async function exportElementToPdf(el: HTMLElement, filename: string) {
 
   const pdf = new jsPDF({ unit: "mm", format: "a4", orientation: "portrait" });
 
-  // px per mm at the captured resolution
-  const pxPerMm = canvas.width / A4_W_MM;
-  const pageHeightPx = Math.floor(A4_H_MM * pxPerMm);
-  const totalHeightPx = canvas.height;
+  // Fit the entire CV onto a single A4 page.
+  const pxPerMmWidth = canvas.width / A4_W_MM;
+  const naturalHeightMm = canvas.height / pxPerMmWidth;
 
-  let renderedPx = 0;
-  let pageIndex = 0;
-
-  while (renderedPx < totalHeightPx) {
-    const sliceHeightPx = Math.min(pageHeightPx, totalHeightPx - renderedPx);
-
-    const pageCanvas = document.createElement("canvas");
-    pageCanvas.width = canvas.width;
-    pageCanvas.height = sliceHeightPx;
-    const ctx = pageCanvas.getContext("2d");
-    if (!ctx) throw new Error("Canvas 2D context indisponible");
-    ctx.fillStyle = "#ffffff";
-    ctx.fillRect(0, 0, pageCanvas.width, pageCanvas.height);
-    ctx.drawImage(
-      canvas,
-      0,
-      renderedPx,
-      canvas.width,
-      sliceHeightPx,
-      0,
-      0,
-      canvas.width,
-      sliceHeightPx,
-    );
-
-    const imgData = pageCanvas.toDataURL("image/jpeg", 0.95);
-    if (pageIndex > 0) pdf.addPage();
-    const sliceHeightMm = sliceHeightPx / pxPerMm;
-    pdf.addImage(imgData, "JPEG", 0, 0, A4_W_MM, sliceHeightMm);
-
-    renderedPx += sliceHeightPx;
-    pageIndex++;
+  let renderWidthMm = A4_W_MM;
+  let renderHeightMm = naturalHeightMm;
+  if (naturalHeightMm > A4_H_MM) {
+    // Scale down uniformly so the whole content fits on one page.
+    const scale = A4_H_MM / naturalHeightMm;
+    renderHeightMm = A4_H_MM;
+    renderWidthMm = A4_W_MM * scale;
   }
+  const offsetXmm = (A4_W_MM - renderWidthMm) / 2;
+
+  const imgData = canvas.toDataURL("image/jpeg", 0.95);
+  pdf.addImage(imgData, "JPEG", offsetXmm, 0, renderWidthMm, renderHeightMm);
 
   pdf.save(filename);
 }
