@@ -1,0 +1,123 @@
+{
+  "profile": {
+    "full_name": "ZAHID OUSSAMA",
+    "date_of_birth": "2003-09-13",
+    "nationality": "Marocaine",
+    "current_role": "Développeur Full Stack | Analyste Cybersécurité SOC",
+    "professional_summary": "Développeur Full Stack diplômé en Développement Digital Web Full Stack, actuellement en Licence Informatique Décisionnelle et E-Santé. Expérience en développement d'applications web, API REST, sécurité des systèmes et plateformes SOC. Intéressé par la cybersécurité, le cloud et les solutions intelligentes basées sur les données."
+  },
+  "contact": {
+    "phone": "+212 624 817 663",
+    "email": "ossamazahid3@gmail.com",
+    "address": {
+      "street": "Dr Lourarquia Krifate",
+      "city": "Fquih Ben Salah",
+      "country": "Maroc"
+    },
+    "linkedin": null,
+    "portfolio": null,
+    "github": null
+  },
+  "education": [
+    {
+      "degree": "Licence Informatique Décisionnelle et E-Santé (LIDSED)",
+      "institution": "SUPTECH SANTÉ",
+      "location": "Mohammedia, Maroc",
+      "start_date": "2025-09",
+      "end_date": "2026-06",
+      "status": "en cours",
+      "level": "Bac+3",
+      "description": "Analyse de données, Business Intelligence, Systèmes d'information de santé, Cybersécurité."
+    },
+    {
+      "degree": "Diplôme Technicien Spécialisé — Développement Digital option Web Full Stack",
+      "institution": "OFPPT — ISTA Souk Sebt",
+      "location": "Souk Sebt, Maroc",
+      "start_date": "2023-09",
+      "end_date": "2025-06",
+      "status": "diplômé",
+      "level": "Bac+2"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Professional Certificate in Cybersecurity Analysis",
+      "provider": "JOBINTECH",
+      "status": "en cours",
+      "expected_date": "2026-06",
+      "modules": {
+        "modules": [
+          "Cybersécurité SOC",
+          "SIEM & Analyse des Logs",
+          "Sécurité des réseaux",
+          "Tests d'intrusion (Pentest)",
+          "Durcissement des systèmes"
+        ]
+      }
+    }
+  ],
+  "professional_experience": [
+    {
+      "role": "Stagiaire — Service Informatique",
+      "company": "Office Régional de Mise en Valeur Agricole du Tadla (ORMVA du Tadla)",
+      "location": "Fquih Ben Salah, Maroc",
+      "start_date": "2026-04",
+      "end_date": "2026-05",
+      "type": "Stage Licence L3 · 2 mois",
+      "achievements": [
+        "Participation aux activités du Service Informatique dans le cadre de la Licence Informatique Décisionnelle et E-Santé.",
+        "Analyse et traitement des données pour améliorer la gestion des informations.",
+        "Contribution aux solutions numériques et aux systèmes d'information internes.",
+        "Application des bonnes pratiques en gestion de données et sécurité informatique."
+      ]
+    },
+    {
+      "role": "Développeur Full Stack — Stage PFE & Stage pratique",
+      "company": "Province de Fquih Ben Salah — SSIC",
+      "location": "Fquih Ben Salah, Maroc",
+      "start_date": "2025-04",
+      "end_date": "2025-08",
+      "type": "PFE + Stage pratique",
+      "project": "Vigil — Mini SOC Platform",
+      "project_description": "Développement d'une plateforme SOC full-stack pour la gestion des alertes, incidents et événements de sécurité.",
+      "technologies": ["React.js", "Laravel", "FastAPI", "PostgreSQL", "MySQL", "API REST"],
+      "achievements": [
+        "Conception d'interfaces modernes avec React.js et intégration d'API REST sécurisées.",
+        "Développement backend avec Laravel, FastAPI et gestion des bases PostgreSQL / MySQL.",
+        "Amélioration de la sécurité des applications et optimisation des performances.",
+        "Préparation et suivi du déploiement en environnement de production."
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "name": "Vigil",
+      "type": "Mini SOC Platform",
+      "description": "Plateforme de supervision sécurité avec gestion des alertes, incidents, SIEM et reporting. Authentification sécurisée JWT, MFA, RBAC. Analyse des logs et enrichissement des IOC.",
+      "tech_stack": {
+        "stack": ["React 19", "TypeScript", "FastAPI", "PostgreSQL", "OpenSearch", "Wazuh"]
+      }
+    }
+  ],
+  "skills": {
+    "technical": {
+      "frontend": ["React.js", "TypeScript", "JavaScript", "HTML5 / CSS3", "Tailwind CSS"],
+      "backend": ["Laravel (PHP)", "FastAPI", "Node.js", "API REST"],
+      "bases de données": ["PostgreSQL", "MySQL", "MongoDB", "SQL"],
+      "cybersécurité": ["SOC", "SIEM & Analyse des logs", "Sécurité réseau", "Ethical Hacking", "Cryptographie"],
+      "outils": ["Git", "Docker", "Agile / Scrum"]
+    },
+    "soft_skills": [
+      "Gestion de projet",
+      "Travail en équipe",
+      "Communication",
+      "Résolution de problèmes",
+      "Adaptabilité"
+    ],
+    "languages": [
+      { "language": "Arabe", "level": "Langue maternelle", "cefr": "C2" },
+      { "language": "Français", "level": "Courant", "cefr": "B2" },
+      { "language": "Anglais", "level": "Technique", "cefr": "B1" }
+    ]
+  }
+}
