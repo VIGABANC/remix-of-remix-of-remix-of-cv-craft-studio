@@ -195,18 +195,9 @@ function Index() {
     const t = toast.loading("Génération du PDF…");
     try {
       const filename = `CV_${profile.profile.full_name.replace(/\s+/g, "_")}.pdf`;
-      const { exportElementToPdf, printElementFallback } = await import("@/lib/pdf-export");
-      try {
-        await exportElementToPdf(cvRef.current, filename);
-        toast.success("PDF téléchargé", { id: t });
-      } catch (err) {
-        console.error("html2pdf failed, using print fallback", err);
-        toast.message("Ouverture de la boîte d'impression…", {
-          id: t,
-          description: "Choisissez « Enregistrer en PDF ».",
-        });
-        printElementFallback(cvRef.current);
-      }
+      const { exportElementToPdf } = await import("@/lib/pdf-export");
+      await exportElementToPdf(cvRef.current, filename);
+      toast.success("PDF téléchargé", { id: t });
     } catch (err) {
       console.error(err);
       toast.error(err instanceof Error ? err.message : "Erreur lors de la génération du PDF", { id: t });
