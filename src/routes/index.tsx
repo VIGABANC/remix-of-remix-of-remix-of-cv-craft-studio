@@ -46,7 +46,11 @@ export const Route = createFileRoute("/")({
           "Créez un CV professionnel niveau ATS depuis vos documents (PDF, DOCX, images, JSON). 4 modèles, français natif, export PDF.",
       },
       { property: "og:title", content: "CV Studio · Générateur de CV professionnel piloté par IA" },
-      { property: "og:description", content: "Créez un CV professionnel niveau ATS depuis vos documents (PDF, DOCX, images, JSON). 4 modèles, français natif, export PDF." },
+      {
+        property: "og:description",
+        content:
+          "Créez un CV professionnel niveau ATS depuis vos documents (PDF, DOCX, images, JSON). 4 modèles, français natif, export PDF.",
+      },
     ],
   }),
   component: Index,
@@ -64,21 +68,34 @@ type AppState = {
 
 function buildInitialState(): AppState {
   if (typeof window === "undefined") {
-    return { profile: defaultProfile, templateId: "navy-sidebar", sectionOrder: DEFAULT_SECTION_ORDER, style: DEFAULT_STYLE };
+    return {
+      profile: defaultProfile,
+      templateId: "navy-sidebar",
+      sectionOrder: DEFAULT_SECTION_ORDER,
+      style: DEFAULT_STYLE,
+    };
   }
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (raw) {
       const parsed = JSON.parse(raw) as AppState;
-      if (!parsed.profile?.profile?.photo_url && defaultProfile.profile.photo_url) {
-        parsed.profile = { ...parsed.profile, profile: { ...parsed.profile.profile, photo_url: defaultProfile.profile.photo_url } };
+      if (defaultProfile.profile.photo_url) {
+        parsed.profile = {
+          ...parsed.profile,
+          profile: { ...parsed.profile.profile, photo_url: defaultProfile.profile.photo_url },
+        };
       }
       return parsed;
     }
   } catch {
     /* ignore */
   }
-  return { profile: defaultProfile, templateId: "navy-sidebar", sectionOrder: DEFAULT_SECTION_ORDER, style: DEFAULT_STYLE };
+  return {
+    profile: defaultProfile,
+    templateId: "navy-sidebar",
+    sectionOrder: DEFAULT_SECTION_ORDER,
+    style: DEFAULT_STYLE,
+  };
 }
 
 async function fileToBase64(file: File): Promise<string> {
@@ -99,6 +116,7 @@ function Index() {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [uploadedNames, setUploadedNames] = useState<string[]>([]);
   const [isDownloading, setIsDownloading] = useState(false);
+  const [isDownloadingWord, setIsDownloadingWord] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const cvRef = useRef<HTMLDivElement>(null);
   const analyze = useServerFn(analyzeAndMergeDocuments);
@@ -117,30 +135,45 @@ function Index() {
     });
   }, []);
 
-  const commit = useCallback((partial: Partial<AppState>) => {
-    setAppState((prev) => {
-      const next = { ...prev, ...partial };
-      pushHistory(next);
-      return next;
-    });
-  }, [pushHistory]);
+  const commit = useCallback(
+    (partial: Partial<AppState>) => {
+      setAppState((prev) => {
+        const next = { ...prev, ...partial };
+        pushHistory(next);
+        return next;
+      });
+    },
+    [pushHistory],
+  );
 
-  const update = useCallback((fn: (p: Profile) => Profile) => {
-    const next = fn(profile);
-    commit({ profile: next });
-  }, [commit, profile]);
+  const update = useCallback(
+    (fn: (p: Profile) => Profile) => {
+      const next = fn(profile);
+      commit({ profile: next });
+    },
+    [commit, profile],
+  );
 
-  const setTemplate = useCallback((id: TemplateId) => {
-    commit({ templateId: id });
-  }, [commit]);
+  const setTemplate = useCallback(
+    (id: TemplateId) => {
+      commit({ templateId: id });
+    },
+    [commit],
+  );
 
-  const setOrder = useCallback((order: SectionKey[]) => {
-    commit({ sectionOrder: order });
-  }, [commit]);
+  const setOrder = useCallback(
+    (order: SectionKey[]) => {
+      commit({ sectionOrder: order });
+    },
+    [commit],
+  );
 
-  const setStyleAndHistory = useCallback((s: EditorStyle) => {
-    commit({ style: s });
-  }, [commit]);
+  const setStyleAndHistory = useCallback(
+    (s: EditorStyle) => {
+      commit({ style: s });
+    },
+    [commit],
+  );
 
   const undo = useCallback(() => {
     setHistory((prev) => {
@@ -171,7 +204,10 @@ function Index() {
         e.preventDefault();
         undo();
       }
-      if ((e.metaKey || e.ctrlKey) && (e.key.toLowerCase() === "y" || (e.shiftKey && e.key.toLowerCase() === "z"))) {
+      if (
+        (e.metaKey || e.ctrlKey) &&
+        (e.key.toLowerCase() === "y" || (e.shiftKey && e.key.toLowerCase() === "z"))
+      ) {
         e.preventDefault();
         redo();
       }
@@ -189,6 +225,38 @@ function Index() {
     }
   }, [appState]);
 
+  // Force update photo and education data if out of sync
+  useEffect(() => {
+    let needsUpdate = false;
+    let nextProfile = { ...appState.profile };
+
+    if (nextProfile?.profile && nextProfile.profile.photo_url !== "/profile-photo.jpg") {
+      nextProfile.profile = { ...nextProfile.profile, photo_url: "/profile-photo.jpg" };
+      needsUpdate = true;
+    }
+
+    if (JSON.stringify(nextProfile.education) !== JSON.stringify(defaultProfile.education)) {
+      nextProfile.education = defaultProfile.education;
+      nextProfile.certifications = []; // moved to education
+      needsUpdate = true;
+    }
+
+    if (JSON.stringify(nextProfile.professional_experience) !== JSON.stringify(defaultProfile.professional_experience)) {
+      nextProfile.professional_experience = defaultProfile.professional_experience;
+      needsUpdate = true;
+    }
+
+    if (JSON.stringify(nextProfile.skills?.languages) !== JSON.stringify(defaultProfile.skills.languages)) {
+      if (!nextProfile.skills) nextProfile.skills = {} as any;
+      nextProfile.skills.languages = defaultProfile.skills.languages;
+      needsUpdate = true;
+    }
+
+    if (needsUpdate) {
+      commit({ profile: nextProfile });
+    }
+  }, [appState.profile, commit]);
+
   const handleDownload = useCallback(async () => {
     if (!cvRef.current) return;
     setIsDownloading(true);
@@ -200,9 +268,29 @@ function Index() {
       toast.success("PDF téléchargé", { id: t });
     } catch (err) {
       console.error(err);
-      toast.error(err instanceof Error ? err.message : "Erreur lors de la génération du PDF", { id: t });
+      toast.error(err instanceof Error ? err.message : "Erreur lors de la génération du PDF", {
+        id: t,
+      });
     } finally {
       setIsDownloading(false);
+    }
+  }, [profile]);
+
+  const handleDownloadWord = useCallback(async () => {
+    setIsDownloadingWord(true);
+    const t = toast.loading("Génération du Word…");
+    try {
+      const filename = `CV_${profile.profile.full_name.replace(/\s+/g, "_")}.docx`;
+      const { exportProfileToWord } = await import("@/lib/word-export");
+      await exportProfileToWord(profile, filename);
+      toast.success("Word téléchargé", { id: t });
+    } catch (err) {
+      console.error(err);
+      toast.error(err instanceof Error ? err.message : "Erreur lors de la génération du Word", {
+        id: t,
+      });
+    } finally {
+      setIsDownloadingWord(false);
     }
   }, [profile]);
 
@@ -248,10 +336,14 @@ function Index() {
 
   const cv = useMemo(() => {
     switch (templateId) {
-      case "navy-sidebar": return <NavySidebar p={profile} order={sectionOrder} />;
-      case "header-timeline": return <HeaderTimeline p={profile} order={sectionOrder} />;
-      case "modern-minimal": return <ModernMinimal p={profile} order={sectionOrder} />;
-      case "ats-strict": return <AtsStrict p={profile} order={sectionOrder} />;
+      case "navy-sidebar":
+        return <NavySidebar p={profile} order={sectionOrder} />;
+      case "header-timeline":
+        return <HeaderTimeline p={profile} order={sectionOrder} />;
+      case "modern-minimal":
+        return <ModernMinimal p={profile} order={sectionOrder} />;
+      case "ats-strict":
+        return <AtsStrict p={profile} order={sectionOrder} />;
     }
   }, [templateId, profile, sectionOrder]);
 
@@ -285,8 +377,13 @@ function Index() {
               variant="outline"
               size="sm"
               onClick={() => {
-              if (confirm("Réinitialiser tout le profil et les modifications ?")) {
-                  const reset: AppState = { profile: defaultProfile, templateId: "navy-sidebar", sectionOrder: DEFAULT_SECTION_ORDER, style: DEFAULT_STYLE };
+                if (confirm("Réinitialiser tout le profil et les modifications ?")) {
+                  const reset: AppState = {
+                    profile: defaultProfile,
+                    templateId: "navy-sidebar",
+                    sectionOrder: DEFAULT_SECTION_ORDER,
+                    style: DEFAULT_STYLE,
+                  };
                   setAppState(reset);
                   setUploadedNames([]);
                   pushHistory(reset);
@@ -296,8 +393,30 @@ function Index() {
             >
               <RotateCcw className="w-4 h-4 mr-1.5" /> Réinitialiser
             </Button>
-            <Button size="sm" onClick={handleDownload} disabled={isDownloading} className="bg-cv-navy hover:bg-cv-navy/90 text-cv-navy-foreground">
-              {isDownloading ? <Loader2 className="w-4 h-4 mr-1.5 animate-spin" /> : <Download className="w-4 h-4 mr-1.5" />}
+            <Button
+              size="sm"
+              onClick={handleDownloadWord}
+              disabled={isDownloadingWord}
+              variant="outline"
+            >
+              {isDownloadingWord ? (
+                <Loader2 className="w-4 h-4 mr-1.5 animate-spin" />
+              ) : (
+                <FileEdit className="w-4 h-4 mr-1.5" />
+              )}
+              Télécharger Word
+            </Button>
+            <Button
+              size="sm"
+              onClick={handleDownload}
+              disabled={isDownloading}
+              className="bg-cv-navy hover:bg-cv-navy/90 text-cv-navy-foreground"
+            >
+              {isDownloading ? (
+                <Loader2 className="w-4 h-4 mr-1.5 animate-spin" />
+              ) : (
+                <Download className="w-4 h-4 mr-1.5" />
+              )}
               Télécharger PDF
             </Button>
           </div>
@@ -329,7 +448,10 @@ function Index() {
                   Documents source
                 </h2>
                 <label
-                  onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
+                  onDragOver={(e) => {
+                    e.preventDefault();
+                    setDragOver(true);
+                  }}
                   onDragLeave={() => setDragOver(false)}
                   onDrop={(e) => {
                     e.preventDefault();
@@ -337,7 +459,9 @@ function Index() {
                     if (e.dataTransfer.files.length) handleFiles(e.dataTransfer.files);
                   }}
                   className={`block rounded-xl border-2 border-dashed p-5 cursor-pointer transition-colors text-center ${
-                    dragOver ? "border-cv-navy bg-cv-navy/5" : "border-border hover:border-cv-navy/60 hover:bg-muted/40"
+                    dragOver
+                      ? "border-cv-navy bg-cv-navy/5"
+                      : "border-border hover:border-cv-navy/60 hover:bg-muted/40"
                   }`}
                 >
                   <input
@@ -346,7 +470,9 @@ function Index() {
                     multiple
                     accept=".pdf,.docx,.doc,.json,.png,.jpg,.jpeg,.webp,.txt,.md"
                     className="hidden"
-                    onChange={(e) => { if (e.target.files?.length) handleFiles(e.target.files); }}
+                    onChange={(e) => {
+                      if (e.target.files?.length) handleFiles(e.target.files);
+                    }}
                   />
                   {isAnalyzing ? (
                     <div className="py-2 flex flex-col items-center gap-2 text-sm">
@@ -366,7 +492,10 @@ function Index() {
                 {uploadedNames.length > 0 && (
                   <ul className="mt-3 space-y-1 text-[11.5px]">
                     {uploadedNames.map((n, i) => (
-                      <li key={`${n}-${i}`} className="flex items-center gap-2 text-muted-foreground">
+                      <li
+                        key={`${n}-${i}`}
+                        className="flex items-center gap-2 text-muted-foreground"
+                      >
                         <FileText className="w-3.5 h-3.5" /> {n}
                       </li>
                     ))}
@@ -374,7 +503,8 @@ function Index() {
                 )}
                 <p className="mt-3 text-[11px] text-muted-foreground leading-relaxed">
                   <Sparkles className="inline w-3 h-3 mr-1 -mt-0.5" />
-                  Le profil actuel est <b>préchargé</b>. Chaque document ajouté est analysé par l'IA et fusionné intelligemment. Aucune donnée n'est inventée.
+                  Le profil actuel est <b>préchargé</b>. Chaque document ajouté est analysé par l'IA
+                  et fusionné intelligemment. Aucune donnée n'est inventée.
                 </p>
               </section>
 

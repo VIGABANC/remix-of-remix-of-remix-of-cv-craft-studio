@@ -14,28 +14,15 @@ export async function exportElementToPdf(el: HTMLElement, filename: string) {
     useCORS: true,
     backgroundColor: "#ffffff",
     logging: false,
-    windowWidth: el.scrollWidth,
-    windowHeight: el.scrollHeight,
+    windowWidth: 794, // A4 width in pixels at 96 DPI
+    windowHeight: 1123, // A4 height in pixels at 96 DPI
   });
 
   const pdf = new jsPDF({ unit: "mm", format: "a4", orientation: "portrait" });
 
-  // Fit the entire CV onto a single A4 page.
-  const pxPerMmWidth = canvas.width / A4_W_MM;
-  const naturalHeightMm = canvas.height / pxPerMmWidth;
-
-  let renderWidthMm = A4_W_MM;
-  let renderHeightMm = naturalHeightMm;
-  if (naturalHeightMm > A4_H_MM) {
-    // Scale down uniformly so the whole content fits on one page.
-    const scale = A4_H_MM / naturalHeightMm;
-    renderHeightMm = A4_H_MM;
-    renderWidthMm = A4_W_MM * scale;
-  }
-  const offsetXmm = (A4_W_MM - renderWidthMm) / 2;
-
+  // Use exact A4 dimensions
   const imgData = canvas.toDataURL("image/jpeg", 0.95);
-  pdf.addImage(imgData, "JPEG", offsetXmm, 0, renderWidthMm, renderHeightMm);
+  pdf.addImage(imgData, "JPEG", 0, 0, A4_W_MM, A4_H_MM);
 
   pdf.save(filename);
 }

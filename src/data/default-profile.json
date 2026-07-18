@@ -3,8 +3,9 @@
     "full_name": "ZAHID OUSSAMA",
     "date_of_birth": "2003-09-13",
     "nationality": "Marocaine",
-    "current_role": "Développeur Full Stack | Analyste Cybersécurité SOC",
-    "professional_summary": "Développeur Full Stack diplômé en Développement Digital Web Full Stack, actuellement en Licence Informatique Décisionnelle et E-Santé. Expérience en développement d'applications web, API REST, sécurité des systèmes et plateformes SOC. Intéressé par la cybersécurité, le cloud et les solutions intelligentes basées sur les données."
+    "current_role": "Développeur Full Stack & Analyste Cybersécurité",
+    "professional_summary": "Développeur Full Stack diplômé en Développement Digital Web Full Stack, actuellement en Licence Informatique Décisionnelle et e-Santé. Passionné par la cybersécurité, le cloud et les solutions intelligentes basées sur les données.",
+    "photo_url": "/profile-photo.jpg"
   },
   "contact": {
     "phone": "+212 624 817 663",
@@ -20,72 +21,57 @@
   },
   "education": [
     {
-      "degree": "Licence Informatique Décisionnelle et E-Santé (LIDSED)",
-      "institution": "SUPTECH SANTÉ",
+      "degree": "Licence en Informatique Décisionnelle (3ème année)",
+      "institution": "École Supérieure de Génie Biomédical et des Techniques de Santé",
       "location": "Mohammedia, Maroc",
-      "start_date": "2025-09",
-      "end_date": "2026-06",
+      "start_date": "2025",
+      "end_date": "2026",
       "status": "en cours",
-      "level": "Bac+3",
-      "description": "Analyse de données, Business Intelligence, Systèmes d'information de santé, Cybersécurité."
+      "level": "Bac+3"
     },
     {
-      "degree": "Diplôme Technicien Spécialisé — Développement Digital option Web Full Stack",
+      "degree": "Formation en Analyste Cybersécurité — Jobintech",
+      "institution": "Fondation de Recherche, de Développement et d’Innovation en Sciences et Ingénierie",
+      "location": "Maroc",
+      "start_date": "2025",
+      "end_date": "2026",
+      "status": "en cours",
+      "level": "Formation"
+    },
+    {
+      "degree": "Diplôme de Technicien Spécialisé — Développement Digital Web Full Stack",
       "institution": "OFPPT — ISTA Souk Sebt",
       "location": "Souk Sebt, Maroc",
-      "start_date": "2023-09",
-      "end_date": "2025-06",
+      "start_date": "2023",
+      "end_date": "2025",
       "status": "diplômé",
       "level": "Bac+2"
     }
   ],
-  "certifications": [
-    {
-      "name": "Professional Certificate in Cybersecurity Analysis",
-      "provider": "JOBINTECH",
-      "status": "en cours",
-      "expected_date": "2026-06",
-      "modules": {
-        "modules": [
-          "Cybersécurité SOC",
-          "SIEM & Analyse des Logs",
-          "Sécurité des réseaux",
-          "Tests d'intrusion (Pentest)",
-          "Durcissement des systèmes"
-        ]
-      }
-    }
-  ],
+  "certifications": [],
   "professional_experience": [
     {
-      "role": "Stagiaire — Service Informatique",
-      "company": "Office Régional de Mise en Valeur Agricole du Tadla (ORMVA du Tadla)",
+      "role": "Développeur Stagiaire — Sécurité Informatique",
+      "company": "ORMVA du Tadla (Office Régional de Mise en Valeur Agricole)",
       "location": "Fquih Ben Salah, Maroc",
       "start_date": "2026-04",
       "end_date": "2026-05",
-      "type": "Stage Licence L3 · 2 mois",
+      "type": "Stage — Licence (Bac+3)",
       "achievements": [
-        "Participation aux activités du Service Informatique dans le cadre de la Licence Informatique Décisionnelle et E-Santé.",
-        "Analyse et traitement des données pour améliorer la gestion des informations.",
-        "Contribution aux solutions numériques et aux systèmes d'information internes.",
-        "Application des bonnes pratiques en gestion de données et sécurité informatique."
+        "Développement d'une plateforme de supervision sécurité avec gestion des alertes, incidents, SIEM et reporting.",
+        "Mise en place d'une authentification sécurisée JWT, MFA, RBAC.",
+        "Analyse des logs et enrichissement des IOC."
       ]
     },
     {
-      "role": "Développeur Full Stack — Stage PFE & Stage pratique",
+      "role": "Développeur Full Stack",
       "company": "Province de Fquih Ben Salah — SSIC",
       "location": "Fquih Ben Salah, Maroc",
-      "start_date": "2025-04",
-      "end_date": "2025-08",
-      "type": "PFE + Stage pratique",
-      "project": "Vigil — Mini SOC Platform",
-      "project_description": "Développement d'une plateforme SOC full-stack pour la gestion des alertes, incidents et événements de sécurité.",
-      "technologies": ["React.js", "Laravel", "FastAPI", "PostgreSQL", "MySQL", "API REST"],
+      "start_date": "2025-08",
+      "end_date": "2025-09",
+      "type": "Stage pratique",
       "achievements": [
-        "Conception d'interfaces modernes avec React.js et intégration d'API REST sécurisées.",
-        "Développement backend avec Laravel, FastAPI et gestion des bases PostgreSQL / MySQL.",
-        "Amélioration de la sécurité des applications et optimisation des performances.",
-        "Préparation et suivi du déploiement en environnement de production."
+        "Poursuite et finalisation du projet de gestion des tâches : optimisation de la sécurité des API, amélioration de l'UX, et déploiement en production."
       ]
     }
   ],
@@ -93,9 +79,9 @@
     {
       "name": "Vigil",
       "type": "Mini SOC Platform",
-      "description": "Plateforme de supervision sécurité avec gestion des alertes, incidents, SIEM et reporting. Authentification sécurisée JWT, MFA, RBAC. Analyse des logs et enrichissement des IOC.",
+      "description": "Plateforme de supervision sécurité avec gestion des alertes, incidents, SIEM et reporting. Authentification sécurisée JWT, MFA, RBAC.",
       "tech_stack": {
-        "stack": ["React 19", "TypeScript", "FastAPI", "PostgreSQL", "OpenSearch", "Wazuh"]
+        "stack": ["React 19", "FastAPI", "PostgreSQL", "OpenSearch", "Wazuh"]
       }
     }
   ],
@@ -103,7 +89,7 @@
     "technical": {
       "frontend": ["React.js", "TypeScript", "JavaScript", "HTML5 / CSS3", "Tailwind CSS"],
       "backend": ["Laravel (PHP)", "FastAPI", "Node.js", "API REST"],
-      "bases de données": ["PostgreSQL", "MySQL", "MongoDB", "SQL"],
+      "bases_de_données": ["PostgreSQL", "MySQL", "MongoDB", "SQL"],
       "cybersécurité": ["SOC", "SIEM & Analyse des logs", "Sécurité réseau", "Ethical Hacking", "Cryptographie"]
     },
     "soft_skills": [
@@ -114,9 +100,8 @@
       "Adaptabilité"
     ],
     "languages": [
-      { "language": "Arabe", "level": "Langue maternelle", "cefr": "Natif" },
-      { "language": "Français", "level": "Élémentaire", "cefr": "A2" },
-      { "language": "Anglais", "level": "Élémentaire", "cefr": "A2" }
+      { "language": "Français", "level": "Intermédiaire" },
+      { "language": "Anglais", "level": "Intermédiaire" }
     ]
   }
 }

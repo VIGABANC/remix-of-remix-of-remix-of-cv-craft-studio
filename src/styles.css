@@ -125,7 +125,7 @@
 }
 .cv-page {
   width: 210mm;
-  min-height: 297mm;
+  height: 297mm;
   background: #ffffff;
   color: #1a1d29;
   font-family: var(--font-cv-sans);
@@ -140,6 +140,11 @@
 .cv-page h1, .cv-page h2, .cv-page h3, .cv-page h4 {
   font-family: var(--font-cv-serif);
   color: var(--cv-ink);
+}
+/* Sidebar headings must stay white — override the ink rule */
+.cv-page aside h3 {
+  color: #ffffff !important;
+  font-weight: 700 !important;
 }
 
 /* Print */
